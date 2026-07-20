@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P2P SHOP</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🛍️ P2P SHOP
+    </div>
+
+    <input
+        type="text"
+        id="search"
+        placeholder="ค้นหาสินค้า..."
+    >
+
+    <div class="cart-icon">
+        🛒
+        <span id="cartCount">0</span>
+    </div>
+
+</header>
+
+<section class="banner">
+
+    <h1>ยินดีต้อนรับ</h1>
+
+    <p>ลูกปัดและอุปกรณ์งาน DIY</p>
+
+</section>
+
+<section>
+
+    <h2 class="title">
+        สินค้าทั้งหมด
+    </h2>
+
+    <div id="product-list" class="products">
+
+    </div>
+
+</section>
+
+<aside class="cart">
+
+    <h2>🛒 ตะกร้าสินค้า</h2>
+
+    <div id="cartItems"></div>
+
+    <h3>
+        รวม
+        <span id="totalPrice">
+            0
+        </span>
+        บาท
+    </h3>
+
+    <input
+        id="customerName"
+        placeholder="ชื่อผู้สั่งซื้อ"
+    >
+
+    <input
+        id="customerPhone"
+        placeholder="เบอร์โทร"
+    >
+
+    <textarea
+        id="customerAddress"
+        placeholder="ที่อยู่"
+    ></textarea>
+
+    <button id="lineButton">
+        💚 สั่งซื้อผ่าน LINE
+    </button>
+
+</aside>
+
+<script src="script.js"></script>
+
+</body>
+</html>
