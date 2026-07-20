@@ -1,86 +1,119 @@
 // ===============================
 // P2P SHOP
-// script.js (Part 1)
+// script.js
 // ===============================
 
-// ---------- สินค้าตัวอย่าง ----------
+
+// สินค้า
 let products = [];
 
-// ---------- โหลดตะกร้า ----------
+
+// ตะกร้า
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// ---------- Element ----------
+
+// Element
 const productList = document.getElementById("product-list");
 const cartItems = document.getElementById("cartItems");
 const totalPrice = document.getElementById("totalPrice");
 const cartCount = document.getElementById("cartCount");
 const search = document.getElementById("search");
 
-// ===========================
-// แสดงสินค้า
-// ===========================
+
+// ===============================
+// โหลดสินค้า JSON
+// ===============================
+
 fetch("products.json")
-  .then(response => response.json())
-  .then(data => {
+.then(response => response.json())
+.then(data => {
+
     products = data;
+
     showProducts(products);
-  })
-  .catch(error => {
+
+})
+.catch(error => {
+
     console.error("โหลดสินค้าไม่สำเร็จ", error);
-  });
+
+});
+
+
+
+// ===============================
+// แสดงสินค้า
+// ===============================
+
 function showProducts(list){
 
     productList.innerHTML = "";
 
     list.forEach(product=>{
 
+
         productList.innerHTML += `
 
         <div class="card">
 
-            <img src="${product.image}" alt="">
+            <img src="${product.image}">
+
 
             <div class="info">
 
-                <h3>${product.name}</h3>
+                <h3>
+                    ${product.name}
+                </h3>
+
 
                 <div class="price">
-
                     ${product.price} บาท
-
                 </div>
 
+
                 <button onclick="addToCart(${product.id})">
-
                     เพิ่มลงตะกร้า
-
                 </button>
 
+
             </div>
+
 
         </div>
 
         `;
 
+
     });
+
 
 }
 
-// ===========================
+
+
+// ===============================
 // เพิ่มสินค้า
-// ===========================
+// ===============================
 
 function addToCart(id){
 
-    const product = products.find(p=>p.id===id);
 
-    const exist = cart.find(i=>i.id===id);
+    const product = products.find(
+        p=>p.id===id
+    );
+
+
+    const exist = cart.find(
+        item=>item.id===id
+    );
+
 
     if(exist){
 
         exist.qty++;
 
     }else{
+
 
         cart.push({
 
@@ -90,110 +123,177 @@ function addToCart(id){
 
         });
 
+
     }
+
 
     saveCart();
 
     renderCart();
 
+
 }
 
-// ===========================
-// บันทึก LocalStorage
-// ===========================
+
+
+// ===============================
+// บันทึกตะกร้า
+// ===============================
 
 function saveCart(){
 
     localStorage.setItem(
-
         "cart",
-
         JSON.stringify(cart)
-
     );
 
 }
 
-// ===========================
+
+
+// ===============================
 // แสดงตะกร้า
-// ===========================
+// ===============================
 
 function renderCart(){
 
+
     cartItems.innerHTML="";
 
-    let total=0;
 
-    let count=0;
+    let subtotal = 0;
+
+    let count = 0;
+
+
+
+    if(cart.length===0){
+
+        cartItems.innerHTML =
+        "<p>ยังไม่มีสินค้า</p>";
+
+    }
+
+
 
     cart.forEach(item=>{
 
-        total += item.price * item.qty;
+
+        subtotal += item.price * item.qty;
 
         count += item.qty;
 
+
+
         cartItems.innerHTML += `
 
-        <div style="margin-bottom:15px;">
 
-            <b>${item.name}</b>
+        <div style="
+        border:1px solid #ddd;
+        padding:10px;
+        border-radius:10px;
+        margin-bottom:10px;
+        ">
 
-            <br>
 
-            ราคา ${item.price} บาท
+        <b>${item.name}</b>
 
-            <br>
 
-            จำนวน ${item.qty}
+        <br>
+
+        ${item.price} บาท
+
+
+        <br><br>
+
+
+        <button onclick="decrease(${item.id})">
+        ➖
+        </button>
+
+
+        <b style="margin:0 10px">
+        ${item.qty}
+        </b>
+
+
+        <button onclick="increase(${item.id})">
+        ➕
+        </button>
+
+
+
+        <br><br>
+
+
+        <button 
+        onclick="removeItem(${item.id})"
+        style="
+        background:red;
+        color:white;
+        border:none;
+        padding:5px 10px;
+        border-radius:5px;
+        "
+        >
+        ลบ
+        </button>
+
 
         </div>
 
-        <hr>
 
         `;
 
+
     });
 
-    totalPrice.innerText=total;
 
-    cartCount.innerText=count;
+
+    let shipping = cart.length > 0 ? 50 : 0;
+
+
+    let total = subtotal + shipping;
+
+
+
+    totalPrice.innerHTML = `
+
+    ค่าสินค้า : ${subtotal} บาท
+
+    <br>
+
+    ค่าส่ง : ${shipping} บาท
+
+    <hr>
+
+    <b>
+    รวมทั้งหมด : ${total} บาท
+    </b>
+
+    `;
+
+
+
+    cartCount.innerText = count;
+
+
 
 }
 
-// ===========================
-// ค้นหาสินค้า
-// ===========================
-
-search.addEventListener("keyup",()=>{
-
-    const keyword = search.value.toLowerCase();
-
-    const filter = products.filter(product=>
-
-        product.name.toLowerCase().includes(keyword)
-
-    );
-
-    showProducts(filter);
-
-});
-
-// ===========================
-// โหลดครั้งแรก
-// ===========================
 
 
-
-renderCart();
 // ===============================
-// P2P SHOP
-// script.js (Part 2)
-// ===============================
-
 // เพิ่มจำนวน
+// ===============================
+
 function increase(id){
 
-    const item = cart.find(i=>i.id===id);
+
+    const item = cart.find(
+        i=>i.id===id
+    );
+
 
     if(item){
 
@@ -201,181 +301,240 @@ function increase(id){
 
     }
 
+
     saveCart();
 
     renderCart();
 
+
 }
 
+
+
+// ===============================
 // ลดจำนวน
+// ===============================
+
 function decrease(id){
 
-    const item = cart.find(i=>i.id===id);
 
-    if(!item) return;
+    const item = cart.find(
+        i=>i.id===id
+    );
+
+
+    if(!item)return;
+
+
 
     item.qty--;
 
+
+
     if(item.qty<=0){
 
-        cart = cart.filter(i=>i.id!==id);
+        cart =
+        cart.filter(
+            i=>i.id!==id
+        );
 
     }
+
+
 
     saveCart();
 
     renderCart();
 
+
+
 }
 
+
+
+// ===============================
 // ลบสินค้า
+// ===============================
+
 function removeItem(id){
 
-    cart = cart.filter(item=>item.id!==id);
+
+    cart =
+    cart.filter(
+        item=>item.id!==id
+    );
+
 
     saveCart();
 
     renderCart();
 
-}
-
-// ===========================
-// แสดงตะกร้าใหม่
-// ===========================
-
-renderCart = function(){
-
-    cartItems.innerHTML="";
-
-    let total=0;
-    let count=0;
-
-    if(cart.length===0){
-
-        cartItems.innerHTML="<p>ยังไม่มีสินค้า</p>";
-
-    }
-
-    cart.forEach(item=>{
-
-        total += item.price*item.qty;
-        count += item.qty;
-
-        cartItems.innerHTML += `
-
-        <div style="
-        border:1px solid #ddd;
-        border-radius:10px;
-        padding:10px;
-        margin-bottom:10px;
-        ">
-
-            <b>${item.name}</b>
-
-            <br>
-
-            ${item.price} บาท
-
-            <br><br>
-
-            <button onclick="decrease(${item.id})">➖</button>
-
-            <b style="margin:0 10px;">
-                ${item.qty}
-            </b>
-
-            <button onclick="increase(${item.id})">➕</button>
-
-            <br><br>
-
-            <button
-            onclick="removeItem(${item.id})"
-            style="
-            background:red;
-            color:white;
-            border:none;
-            padding:6px 10px;
-            border-radius:6px;
-            cursor:pointer;
-            ">
-            ลบ
-            </button>
-
-        </div>
-
-        `;
-
-    });
-
-const shipping = cart.length > 0 ? 40 : 0;
-
-totalPrice.innerText = total + shipping;
-    cartCount.innerText=count;
 
 }
 
-// ===========================
-// ส่ง LINE
-// ===========================
 
-document.getElementById("lineButton").addEventListener("click",()=>{
 
-    if(cart.length===0){
+// ===============================
+// ค้นหา
+// ===============================
 
-        alert("กรุณาเลือกสินค้า");
+search.addEventListener(
+"keyup",
+()=>{
 
-        return;
 
-    }
+    let keyword =
+    search.value.toLowerCase();
 
-    const name=document.getElementById("customerName").value.trim();
 
-    const phone=document.getElementById("customerPhone").value.trim();
 
-    const address=document.getElementById("customerAddress").value.trim();
+    let result =
+    products.filter(product=>
 
-    if(name==="" || phone==="" || address===""){
+        product.name
+        .toLowerCase()
+        .includes(keyword)
 
-        alert("กรอกข้อมูลให้ครบ");
+    );
 
-        return;
 
-    }
 
-    let message="🛒 P2P SHOP\n\n";
+    showProducts(result);
 
-    cart.forEach(item=>{
 
-        message+=`${item.name} x${item.qty} = ${item.price*item.qty} บาท\n`;
-
-    });
-
-  const subtotal = cart.reduce(
-    (sum,item)=>sum + item.price * item.qty,
-0);
-
-const shipping = 50;
-const total = subtotal + shipping;
-
-message += "\n";
-message += "ค่าส่ง : " + shipping + " บาท\n";
-message += "รวมทั้งหมด : " + total + " บาท\n\n";
-
-    message += "ชื่อ : "+name+"\n";
-    message += "เบอร์ : "+phone+"\n";
-    message += "ที่อยู่ : "+address;
-
-    const url="https://line.me/R/msg/text/?"+encodeURIComponent(message);
-
-    window.open(url);
-
-    cart=[];
-
-    saveCart();
-
-    renderCart();
 
 });
 
-// โหลดตะกร้าอีกครั้ง
+
+
+// ===============================
+// ส่ง LINE
+// ===============================
+
+document
+.getElementById("lineButton")
+.addEventListener(
+"click",
+()=>{
+
+
+if(cart.length===0){
+
+    alert("กรุณาเลือกสินค้า");
+
+    return;
+
+}
+
+
+
+let name =
+document.getElementById("customerName")
+.value.trim();
+
+
+
+let phone =
+document.getElementById("customerPhone")
+.value.trim();
+
+
+
+let address =
+document.getElementById("customerAddress")
+.value.trim();
+
+
+
+if(!name || !phone || !address){
+
+    alert("กรอกข้อมูลให้ครบ");
+
+    return;
+
+}
+
+
+
+let message =
+"🛒 P2P SHOP\n\n";
+
+
+
+let subtotal = 0;
+
+
+
+cart.forEach(item=>{
+
+
+let price =
+item.price * item.qty;
+
+
+subtotal += price;
+
+
+message +=
+`${item.name} x${item.qty} = ${price} บาท\n`;
+
+
+});
+
+
+
+let shipping = 50;
+
+
+let total =
+subtotal + shipping;
+
+
+
+message +=
+`\nค่าสินค้า : ${subtotal} บาท`;
+
+message +=
+`\nค่าส่ง : ${shipping} บาท`;
+
+message +=
+`\nรวมทั้งหมด : ${total} บาท\n\n`;
+
+
+
+message +=
+`ชื่อ : ${name}\n`;
+
+message +=
+`เบอร์ : ${phone}\n`;
+
+message +=
+`ที่อยู่ : ${address}`;
+
+
+
+let lineURL =
+"https://line.me/R/msg/text/?"
++
+encodeURIComponent(message);
+
+
+
+window.location.href = lineURL;
+
+
+
+cart = [];
+
+saveCart();
+
+renderCart();
+
+
+
+});
+
+
+
+// โหลดตะกร้าเดิม
 renderCart();
