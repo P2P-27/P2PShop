@@ -355,7 +355,6 @@ p=>p.id!==id
 );
 
 
-
 localStorage.setItem(
 
 "products",
@@ -363,6 +362,12 @@ localStorage.setItem(
 JSON.stringify(products)
 
 );
+
+
+saveToGithub(products);
+
+
+showProducts();
 
 
 
