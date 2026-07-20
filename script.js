@@ -182,7 +182,7 @@ search.addEventListener("keyup",()=>{
 // โหลดครั้งแรก
 // ===========================
 
-showProducts(products);
+
 
 renderCart();
 // ===============================
