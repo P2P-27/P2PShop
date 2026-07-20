@@ -19,7 +19,15 @@ const search = document.getElementById("search");
 // ===========================
 // แสดงสินค้า
 // ===========================
-
+fetch("products.json")
+  .then(response => response.json())
+  .then(data => {
+    products = data;
+    showProducts(products);
+  })
+  .catch(error => {
+    console.error("โหลดสินค้าไม่สำเร็จ", error);
+  });
 function showProducts(list){
 
     productList.innerHTML = "";
