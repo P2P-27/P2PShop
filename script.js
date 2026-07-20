@@ -350,10 +350,16 @@ document.getElementById("lineButton").addEventListener("click",()=>{
 
     });
 
-    const total = cart.reduce((sum,item)=>sum+item.price*item.qty,0);
+  const subtotal = cart.reduce(
+    (sum,item)=>sum + item.price * item.qty,
+0);
 
-    message += "\n";
-    message += "รวมทั้งหมด : "+total+" บาท\n\n";
+const shipping = 50;
+const total = subtotal + shipping;
+
+message += "\n";
+message += "ค่าส่ง : " + shipping + " บาท\n";
+message += "รวมทั้งหมด : " + total + " บาท\n\n";
 
     message += "ชื่อ : "+name+"\n";
     message += "เบอร์ : "+phone+"\n";
