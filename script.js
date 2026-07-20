@@ -4,44 +4,7 @@
 // ===============================
 
 // ---------- สินค้าตัวอย่าง ----------
-const products = [
-    {
-        id: 1,
-        name: "ลูกปัดสีขาว",
-        price: 20,
-        image: "images/bead1.jpg"
-    },
-    {
-        id: 2,
-        name: "ลูกปัดสีดำ",
-        price: 25,
-        image: "images/bead2.jpg"
-    },
-    {
-        id: 3,
-        name: "เอ็นยืด",
-        price: 35,
-        image: "images/string.jpg"
-    },
-    {
-        id: 4,
-        name: "จี้หัวใจ",
-        price: 15,
-        image: "images/heart.jpg"
-    },
-    {
-        id: 5,
-        name: "ตัวล็อกสร้อย",
-        price: 10,
-        image: "images/lock.jpg"
-    },
-    {
-        id: 6,
-        name: "ลูกปัดคริสตัล",
-        price: 45,
-        image: "images/crystal.jpg"
-    }
-];
+let products = [];
 
 // ---------- โหลดตะกร้า ----------
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
