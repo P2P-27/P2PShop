@@ -6,6 +6,6 @@ const GITHUB = {
 
     file: "products.json",
 
-    token: "อา_TOKEN_ของคุณมาใส่ตรงนี้""
+    token: "TOKEN ของคุณ"
 
 };
