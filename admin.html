@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>P2P SHOP Admin</title>
+
+
+<style>
+
+body{
+
+font-family:Arial,sans-serif;
+
+background:#f5f5f5;
+
+padding:30px;
+
+}
+
+
+.box{
+
+background:white;
+
+max-width:500px;
+
+margin:auto;
+
+padding:25px;
+
+border-radius:15px;
+
+box-shadow:0 5px 15px #ccc;
+
+}
+
+
+input,button{
+
+width:100%;
+
+padding:12px;
+
+margin-top:10px;
+
+border-radius:8px;
+
+border:1px solid #ddd;
+
+}
+
+
+button{
+
+background:#111;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+
+button:hover{
+
+background:#333;
+
+}
+
+
+.product{
+
+background:#eee;
+
+padding:10px;
+
+margin-top:10px;
+
+border-radius:8px;
+
+}
+
+
+
+.delete{
+
+background:red;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body>
+
+
+<div class="box">
+
+
+<h2>
+🔐 P2P SHOP ADMIN
+</h2>
+
+
+<div id="login">
+
+
+<input 
+id="password"
+type="password"
+placeholder="ใส่รหัสผ่าน">
+
+
+<button onclick="login()">
+
+เข้าสู่ระบบ
+
+</button>
+
+
+</div>
+
+
+
+<div id="admin" style="display:none;">
+
+
+
+<h3>
+เพิ่มสินค้า
+</h3>
+
+
+<input 
+id="name"
+placeholder="ชื่อสินค้า">
+
+
+<input 
+id="price"
+type="number"
+placeholder="ราคา">
+
+
+<input 
+id="image"
+placeholder="ชื่อรูป เช่น images/a.jpg">
+
+
+<button onclick="addProduct()">
+
+เพิ่มสินค้า
+
+</button>
+
+
+
+<h3>
+รายการสินค้า
+</h3>
+
+
+<div id="list"></div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+<script>
+
+
+let products =
+JSON.parse(localStorage.getItem("products"))
+|| [];
+
+
+
+// Login
+
+function login(){
+
+
+let pass =
+document.getElementById("password").value;
+
+
+
+if(pass==="230957"){
+
+
+document.getElementById("login")
+.style.display="none";
+
+
+document.getElementById("admin")
+.style.display="block";
+
+
+showProducts();
+
+
+}else{
+
+
+alert("รหัสผ่านไม่ถูกต้อง");
+
+
+}
+
+
+}
+
+
+
+// เพิ่มสินค้า
+
+function addProduct(){
+
+
+let name =
+document.getElementById("name").value;
+
+
+let price =
+document.getElementById("price").value;
+
+
+let image =
+document.getElementById("image").value;
+
+
+
+let product={
+
+
+id:Date.now(),
+
+name:name,
+
+price:Number(price),
+
+image:image
+
+
+};
+
+
+
+products.push(product);
+
+
+
+localStorage.setItem(
+
+"products",
+
+JSON.stringify(products)
+
+);
+
+
+
+showProducts();
+
+
+
+alert("เพิ่มสินค้าแล้ว");
+
+
+}
+
+
+
+// แสดงสินค้า
+
+function showProducts(){
+
+
+let box =
+document.getElementById("list");
+
+
+box.innerHTML="";
+
+
+
+products.forEach(p=>{
+
+
+box.innerHTML += `
+
+
+<div class="product">
+
+
+<b>${p.name}</b>
+
+<br>
+
+ราคา ${p.price} บาท
+
+
+<br>
+
+
+<button class="delete"
+onclick="deleteProduct(${p.id})">
+
+ลบ
+
+</button>
+
+
+</div>
+
+
+`;
+
+
+});
+
+
+}
+
+
+
+// ลบสินค้า
+
+function deleteProduct(id){
+
+
+products =
+products.filter(
+p=>p.id!==id
+);
+
+
+
+localStorage.setItem(
+
+"products",
+
+JSON.stringify(products)
+
+);
+
+
+
+showProducts();
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
