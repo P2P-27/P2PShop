@@ -307,7 +307,9 @@ renderCart = function(){
 
     });
 
-    totalPrice.innerText=total;
+const shipping = cart.length > 0 ? 40 : 0;
+
+totalPrice.innerText = total + shipping;
     cartCount.innerText=count;
 
 }
