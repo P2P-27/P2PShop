@@ -534,3 +534,17 @@ renderCart();
 
 // โหลดตะกร้าเดิม
 renderCart();
+const cartIcon = document.getElementById("cartIcon");
+const cartBox = document.getElementById("cartBox");
+
+
+cartIcon.addEventListener("click",()=>{
+
+    if(cartBox.style.display === "block"){
+        cartBox.style.display = "none";
+    }
+    else{
+        cartBox.style.display = "block";
+    }
+
+});
