@@ -512,16 +512,12 @@ message +=
 `ที่อยู่ : ${address}`;
 
 
-
 let lineURL =
-"https://line.me/R/msg/text/?"
+"https://line.me/R/oaMessage/@407icsbr/?"
 +
 encodeURIComponent(message);
 
-
-
 window.location.href = lineURL;
-
 
 
 cart = [];
