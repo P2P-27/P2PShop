@@ -3,18 +3,18 @@
     "id": 1,
     "name": "ลูกปัดสีขาว",
     "price": 20,
-    "image": "02.jpg"
+    "image": "image/02.jpg"
   },
   {
     "id": 2,
     "name": "ลูกปัดสีดำ",
     "price": 25,
-    "image": "03.jpg"
+    "image": "image/03.jpg"
   },
   {
     "id": 3,
     "name": "เอ็นยืด",
     "price": 35,
-    "image": "04.jpg"
+    "image": "image/04.jpg"
   }
 ]
